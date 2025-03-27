@@ -26,7 +26,10 @@ const Editor = () => {
   useEffect(() => {
     const fetchDriveFiles = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/get-drive-files", { withCredentials: true });
+        const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/get-drive-files`, {
+          withCredentials: true,
+        });
+        // const response = await axios.get("http://localhost:5000/get-drive-files", { withCredentials: true });
         setDriveFiles(response.data.files || []);
       } catch (error) {
         console.error("Error fetching Letter files:", error);
@@ -75,10 +78,15 @@ const Editor = () => {
     setSaving(true);
     try {
       const response = await axios.post(
-        "http://localhost:5000/save-to-drive",
+        `${process.env.REACT_APP_BACKEND_URL}/save-to-drive`,
         { content: `<h1>My Letter</h1><p>${text}</p>` },
         { withCredentials: true }
       );
+      // const response = await axios.post(
+      //   "http://localhost:5000/save-to-drive",
+      //   { content: `<h1>My Letter</h1><p>${text}</p>` },
+      //   { withCredentials: true }
+      // );
       alert("Saved to Google Drive! File ID: " + response.data.fileId);
     } catch (error) {
       console.error("Error saving to Drive:", error);

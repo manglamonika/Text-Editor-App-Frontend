@@ -7,6 +7,8 @@ import { getAuth, signOut } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import "./Editor.css";
 
+
+
 const Editor = () => {
   const [text, setText] = useState("");
   const [drafts, setDrafts] = useState([]);
@@ -26,9 +28,11 @@ const Editor = () => {
   useEffect(() => {
     const fetchDriveFiles = async () => {
       try {
-        const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/get-drive-files`, {
+        const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/get-drive-files`, {
           withCredentials: true,
         });
+        
+        
         // const response = await axios.get("http://localhost:5000/get-drive-files", { withCredentials: true });
         setDriveFiles(response.data.files || []);
       } catch (error) {
@@ -78,10 +82,11 @@ const Editor = () => {
     setSaving(true);
     try {
       const response = await axios.post(
-        `${process.env.REACT_APP_BACKEND_URL}/save-to-drive`,
+        `${import.meta.env.VITE_BACKEND_URL}/save-to-drive`,
         { content: `<h1>My Letter</h1><p>${text}</p>` },
         { withCredentials: true }
       );
+      
       // const response = await axios.post(
       //   "http://localhost:5000/save-to-drive",
       //   { content: `<h1>My Letter</h1><p>${text}</p>` },
